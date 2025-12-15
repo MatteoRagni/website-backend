@@ -1,0 +1,34 @@
+{
+  "locations": {
+    "/": {
+      "type": "static",
+      "dir": "./sample/home"
+    },
+    "/blog": {
+      "type": "static",
+      "dir": "./sample/blog"
+    }
+  },
+  "cfTurnstyle": {
+    "endpoint": "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    "secret": "1x0000000000000000000000000000000AA"
+  },
+  "smtp": {
+    "server": "localhost",
+    "port": 1025,
+    "encryption": "plain",
+    "verifyTls": false,
+    "fromAddress": "website@test.com",
+    "toAddress": "info@test.com"
+  },
+  "log": {
+    "destination": "logfile.log",
+    "minLevel": "INFO"
+  },
+  "options": {
+    "enableRateLimiting": false,
+    "maxBodySize": 8192,
+    "blockBotUserAgents": false,
+    "ctaEndpoint": "/-/cta"
+  }
+}

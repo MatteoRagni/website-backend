@@ -1,0 +1,66 @@
+<html>
+
+<head>
+  <title>Homepage Page</title>
+  <meta charset="UTF-8">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <script>
+    function onTurnstileSuccess(token) {
+      console.log("Turnstile success:", token);
+      document.querySelector('input[name="cfTurnstyleToken"]').value = token;
+      document.getElementById("formSubmit").disabled = false;
+    }
+    function onTurnstileError(errorCode) {
+      console.error("Turnstile error:", errorCode);
+      document.getElementById("formSubmit").disabled = true;
+    }
+    function onTurnstileExpired() {
+      console.warn("Turnstile token expired");
+      document.getElementById("formSubmit").disabled = true;
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Welcome to the Homepage Secondary Page</h1>
+  <a href="/">Back to Homepage</a>
+
+  <form>
+    <input type="text" name="name" placeholder="Name">
+    <input type="email" name="email" placeholder="Email">
+    <input type="text" name="subject" placeholder="Subject">
+    <textarea name="message" placeholder="Message"></textarea>
+
+    <div id="cfTurnstyle" class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="light"
+      data-size="flexible" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError"
+      data-expired-callback="onTurnstileExpired"></div>
+    <input type="text" name="cfTurnstyleToken" placeholder="Token" display="none">
+
+    <button type="submit" id="formSubmit" disabled>SUBMIT</button>
+  </form>
+
+  <script>
+    const button = document.getElementById('formSubmit');
+    button.addEventListener('click', async function (event) {
+      event.preventDefault();
+      await fetch('/-/cta', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          token: document.querySelector('input[name="cfTurnstyleToken"]').value,
+          payload: {
+            name: document.querySelector('input[name="name"]').value,
+            email: document.querySelector('input[name="email"]').value,
+            subject: document.querySelector('input[name="subject"]').value,
+            message: document.querySelector('textarea[name="message"]').value
+          }
+        })
+      });
+    });
+  </script>
+</body>
+
+</html>

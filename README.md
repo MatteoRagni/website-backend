@@ -27,7 +27,7 @@ cp sample/sample.json config.json
 
 ```bash
 # build
-go build -o website-backend ./...
+go build -o website-backend
 
 # run with your config file
 ./website-backend -config config.json -listen :8080

@@ -10,19 +10,29 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"net/url"
 	"strings"
 
 	config "github.com/matteoragni/website-backend/config"
 )
 
 func VerifyTurnstile(cfg config.CFTurnConfig, token, ip string) (bool, error) {
+	type TurnstileRequest struct {
+		Secret   string `json:"secret"`
+		Response string `json:"response"`
+		RemoteIP string `json:"remoteip"`
+	}
+
 	if cfg.Secret == "" || cfg.Endpoint == "" {
 		return false, errors.New("turnstile not configured")
 	}
-	data := "secret=" + cfg.Secret + "&response=" + token + "&remoteip=" + ip
-	data = url.QueryEscape(data)
-	resp, err := http.Post(cfg.Endpoint, "application/x-www-form-urlencoded", strings.NewReader(data))
+
+	data := TurnstileRequest{cfg.Secret, token, ip}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return false, err
+	}
+	jsonReader := strings.NewReader(string(jsonData))
+	resp, err := http.Post(cfg.Endpoint, "application/json", jsonReader)
 	if err != nil {
 		return false, err
 	}

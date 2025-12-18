@@ -47,7 +47,7 @@ The server reads all configuration from a JSON file (path provided with `-config
                      // paths that needs to go on index.html. Example, vite build
       "basepage": "index.html", // Define the file to serve for the substitution paths
       "dir": "spa/dist", // the distribution directory
-      "paths" [  // List of route in your SPA to be redirected on basepath
+      "paths": [  // List of route in your SPA to be redirected on basepath
         "about",
         "careers",
         "products/prod-A",

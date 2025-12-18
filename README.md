@@ -19,7 +19,7 @@ Lightweight Go web server that serves static content and accepts a single valida
 1. Copy the sample configuration and adapt values:
 
 ```bash
-cp config.sample.json config.json
+cp sample/sample.json config.json
 # edit config.json (turnstile secret, smtp server, paths...)
 ```
 

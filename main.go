@@ -165,7 +165,7 @@ func ctaHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	dec := json.NewDecoder(r.Body)
 	if err := dec.Decode(&body); err != nil && err != io.EOF {
-		warnRefuse(r, "bad json")
+		warnRefuse(r, "bad json: %v"+err.Error())
 		http.Error(w, "invalid request", http.StatusBadRequest)
 		return
 	}
@@ -178,7 +178,7 @@ func ctaHandler(w http.ResponseWriter, r *http.Request) {
 
 	ok, err := turnstile.VerifyTurnstile(cfg.CFTurn, body.Token, ip)
 	if err != nil || !ok {
-		warnRefuse(r, "turnstile failed")
+		warnRefuse(r, "turnstile failed: "+err.Error())
 		http.Error(w, "invalid request", http.StatusBadRequest)
 		return
 	}

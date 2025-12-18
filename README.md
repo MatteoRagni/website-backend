@@ -126,14 +126,14 @@ Server behavior:
 
 ## 🔩 Development & testing
 
-- Use `sample/sample.json` to run locally with Mailpit on port `1025`.
-- Example Mailpit command (Docker):
+ * Use `sample/sample.json` to run locally with Mailpit on port `1025`.
+ * Example Mailpit command (Docker):
 
-```bash
-docker run --rm -p 1025:1025 -p 8025:8025 mailpit/mailpit
-```
-
-- Then run your server pointing to that SMTP server and submit a test `POST /-/cta`.
+   ```bash
+   docker run --rm -p 1025:1025 -p 8025:8025 axllent/mailpit
+   ```
+   
+ * Then run your server pointing to that SMTP server and submit a test `POST /-/cta`.
 
 ## 💬 Logging
 
@@ -141,8 +141,8 @@ Logs are written to the configured destination in structured text format. Adjust
 
 ## 🏎️ Deployment
 
-- Build a static binary: `go build -o website-backend` and deploy the binary plus configuration.
-- Recommended to run behind a reverse proxy (nginx/Caddy) for TLS and additional hardening.
+* Build a static binary: `go build -o website-backend` and deploy the binary plus configuration.
+* Recommended to run behind a reverse proxy (nginx/Caddy) for TLS and additional hardening.
 
 Example systemd unit (optional):
 
@@ -161,14 +161,13 @@ WantedBy=multi-user.target
 
 ## 🔐 Security considerations
 
-- The service intentionally returns generic error messages to avoid leaking internal state.
-- Keep the Turnstile `secret` and SMTP credentials out of version control.
-- Validate and rotate SMTP credentials and Turnstile secrets as part of normal ops.
+* The service intentionally returns generic error messages to avoid leaking internal state.
+* Keep the Turnstile `secret` and SMTP credentials out of version control.
+* Validate and rotate SMTP credentials and Turnstile secrets as part of normal ops.
 
 ## 🤝 Contributing
 
 Contributions welcome. Open issues or PRs for bugfixes and improvements. Please keep changes focused and add tests where appropriate.
-
 
 ## 🗿 License
 

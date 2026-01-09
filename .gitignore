@@ -33,3 +33,5 @@ go.work.sum
 website-backend
 *.log
 sample/production.json
+
+.vscode

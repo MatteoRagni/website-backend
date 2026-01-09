@@ -3,7 +3,7 @@
 Lightweight Go web server that serves static content and accepts a single validated CTA POST endpoint. Designed for easy deployment and local testing (Mailpit/MailHog). Structured logging, Cloudflare Turnstile verification and simple per‑IP rate limiting. Designed for minimal dependencies.
 
 
-## 🎱 🏎️Features 
+## 🎱 Features 
 
  * Serve multiple static locations (including SPA/Vite-built `index.html` fallback)
  * POST endpoint `/-/cta` (configurable) that accepts JSON payloads and a Turnstile token
@@ -64,7 +64,7 @@ The server reads all configuration from a JSON file (path provided with `-config
                     // you will need to include the component in your page
                     // see ./sample/home/page/index.html for an example
     "endpoint": "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    "secret": "<your-secret>"
+    "secret": "<your-secret>" // 35 characters long
   },
   "smtp": {
     "server": "mail.example",
@@ -90,13 +90,16 @@ The server reads all configuration from a JSON file (path provided with `-config
 ```
 
 Notes:
- * `locations.dir` maps URL prefixes to filesystem directories. Be carefule
+ * `locations.dir` maps URL prefixes to filesystem directories. Be careful
  * `locations.type` accepts `spa` or `static`
- * `cfTurnstyle.endpoint` and `secret` are used for server-side Turnstile verification.
+ * `cfTurnstile.endpoint` and `secret` are used for server-side Turnstile verification.
  * `smtp.encryption` accepts `plain`, `ssl`, or `starttls`.
  * `log.minLevel` supports standard levels (DEBUG, INFO, WARN, ERROR).
 
 There are sample configurations under `sample/` (for local testing) and `config.sample.json` in repository root.
+
+> **IMPORTANT NOTE**: `cfTurnstile.secret` can be defined using an environment variable that is `WB_CF_TURN_SECRET`,
+> to avoid hardcoding in a file.
 
 ## 📬 Endpoint: CTA POST
 

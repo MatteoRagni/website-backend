@@ -89,12 +89,8 @@ func main() {
 			log.Fatalf("invalid site type for %s: %s", pattern, site.Type)
 		}
 	}
-
-	ctaEndpoint := cfg.Options.CTAEndpoint
-	if ctaEndpoint == "" {
-		ctaEndpoint = "/-/cta"
-	}
-	mux.HandleFunc(ctaEndpoint, ctaHandler)
+	// CTA endpoint
+	mux.HandleFunc(cfg.Options.CTAEndpoint, ctaHandler)
 
 	srv := &http.Server{Addr: *addr, Handler: limitMiddleware(mux)}
 	log.Infof("listening %s", *addr)

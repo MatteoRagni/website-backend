@@ -9,6 +9,7 @@ package turnstile
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 	"strings"
 
@@ -36,6 +37,18 @@ func VerifyTurnstile(cfg config.CFTurnConfig, token, ip string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+
+	// !200 response (400, 500, ...)
+	// This should happen only for a configuration error
+	if resp.StatusCode > 299 {
+		defer resp.Body.Close()
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return false, errors.New("turnstile verification failed with status: " + resp.Status + " (cannot read body)")
+		}
+		return false, errors.New("turnstile verification failed with status: " + resp.Status + " Error Body: `" + string(bodyBytes) + "`")
+	}
+	// 200 response
 	defer resp.Body.Close()
 	var res struct {
 		Success bool `json:"success"`
